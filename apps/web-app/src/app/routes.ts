@@ -1,5 +1,9 @@
-export const HOME = '/';
+const ROOT = '';
 
-export const LOGIN = '/auth/login';
+export const HOME = `${ROOT}/`;
 
-export const GAME_ROOM = '/game';
+export const LOGIN = `${ROOT}/auth/login`;
+
+const GAME_ROOT = `${ROOT}/games`;
+export const GAME_ROOM_CREATE = `${GAME_ROOT}/create`;
+export const GAME_ROOM_ID = `${GAME_ROOT}/:id`;

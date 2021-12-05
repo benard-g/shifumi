@@ -1,6 +1,9 @@
 import 'reflect-metadata';
 import 'source-map-support/register';
 
+import { Connection } from 'typeorm';
+
+import { createDatabaseConnection } from './model/database';
 import { AuthService } from './services/auth';
 import { Jwt } from './utils/Jwt';
 import { Logger } from './utils/Logger';
@@ -22,6 +25,14 @@ export async function main(config: Config, serviceLocator: ServiceLocator) {
   );
   serviceLocator.set(AuthService, authService);
   logger.info('[app] Services initialized');
+
+  // Connect to DB
+  logger.info('[app] Database connecting...');
+  const conn = await createDatabaseConnection({
+    databaseUrl: config.DATABASE_URL,
+  });
+  serviceLocator.set(Connection, conn);
+  logger.info('[app] Database connected');
 
   // Init server
   logger.info('[app] Server starting...');

@@ -7,7 +7,7 @@ function HomePage() {
     <div>
       <h1>Shifumi - Home</h1>
 
-      <Link to={routes.GAME_ROOM}>GAME ROOM</Link>
+      <Link to={routes.GAME_ROOM_CREATE}>Go to game creation</Link>
     </div>
   );
 }
