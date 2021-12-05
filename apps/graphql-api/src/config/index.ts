@@ -3,6 +3,7 @@ import { getDatabaseUri } from './getDatabaseUri';
 import { getNodeEnv } from './getNodeEnv';
 
 const DEFAULT_ACCESS_TOKEN_DURATION = 7 * 24 * 3600; // 1 week
+const DEFAULT_ALLOWED_CORS_ORIGIN = 'http://localhost:3000';
 const DEFAULT_GRAPHQL_SCHEMA_GENERATION_PATH = '../../schema.graphql';
 const DEFAULT_JWT_SECRET_KEY = 'jwt-secret-key';
 const DEFAULT_LOG_LEVEL = 'debug';
@@ -14,6 +15,10 @@ export function loadConfig() {
   const nodeEnv = getNodeEnv();
 
   return {
+    ALLOWED_CORS_ORIGIN: getFromEnv(
+      'ALLOWED_CORS_ORIGIN',
+      nodeEnv !== 'production' ? DEFAULT_ALLOWED_CORS_ORIGIN : undefined,
+    ),
     ACCESS_TOKEN_DURATION: getNumberFromEnv(
       'ACCESS_TOKEN_DURATION',
       nodeEnv !== 'production' ? DEFAULT_ACCESS_TOKEN_DURATION : undefined,

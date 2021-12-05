@@ -1,4 +1,5 @@
 import fastify from 'fastify';
+import fastifyCors from 'fastify-cors';
 
 import { ServiceLocator } from '../utils/ServiceLocator';
 
@@ -8,20 +9,28 @@ import { createAuthenticateUserPlugin } from './plugins/authenticateUserPlugin';
 import { createLoggerContextPlugin } from './plugins/loggerContextPlugin';
 import { createServiceLocatorPlugin } from './plugins/serviceLocatorPlugin';
 import { createTraceIdPlugin } from './plugins/traceIdPlugin';
+import { RESPONSE_HEADER_ACCESS_TOKEN } from './constants';
 import { createRoutesPlugin } from './routes';
 import { createRoutesWithAuthPlugin } from './routesWithAuth';
 
 interface Options {
+  allowedCorsOrigin: string;
   emitSchemaFile: string | false;
   serviceLocator: ServiceLocator;
 }
 
 export async function createServer(options: Options) {
-  const { emitSchemaFile, serviceLocator } = options;
+  const { allowedCorsOrigin, emitSchemaFile, serviceLocator } = options;
 
   const app = fastify();
 
   // Plugins
+  app.register(fastifyCors, {
+    exposedHeaders: [RESPONSE_HEADER_ACCESS_TOKEN],
+    origin: allowedCorsOrigin,
+  });
+
+  // Custom plugins
   app.register(createServiceLocatorPlugin(serviceLocator));
   app.register(createTraceIdPlugin());
   app.register(createLoggerContextPlugin());
@@ -41,7 +50,9 @@ export async function createServer(options: Options) {
     const graphqlSchema = await buildSchema({ emitSchemaFile });
     const graphqlServer = createGraphqlServer(graphqlSchema);
     await graphqlServer.start();
-    appWithAuth.register(graphqlServer.createHandler({ path: '/api/graphql' }));
+    appWithAuth.register(
+      graphqlServer.createHandler({ path: '/api/graphql', cors: false }),
+    );
   });
 
   return app;

@@ -7,7 +7,7 @@ module.exports = {
   settings: {
     react: { version: 'detect' },
   },
-  extends: ['plugin:react-hooks/recommended'],
+  extends: ['react-app', 'react-app/jest', 'plugin:react-hooks/recommended'],
   plugins: ['react-hooks'],
   ignorePatterns: ['*.codegen.ts'],
   rules: {},
