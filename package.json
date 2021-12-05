@@ -1,0 +1,16 @@
+{
+  "name": "shifumi",
+  "version": "0.1.0",
+  "repository": "git@github.com:benard-g/shifumi.git",
+  "author": "Guillaume BENARD <guillaume@benard.io>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {},
+  "workspaces": [
+    "apps/*"
+  ],
+  "engines": {
+    "node": "16.13.0"
+  },
+  "devDependencies": {}
+}
