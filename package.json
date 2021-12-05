@@ -16,9 +16,11 @@
     "graphql:generate-typings": "graphql-codegen --config graphql-codegen.config.js",
     "test": "wsrun -a test"
   },
-  "workspaces": [
-    "apps/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "apps/*"
+    ]
+  },
   "engines": {
     "node": "16.13.0"
   },
