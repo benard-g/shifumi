@@ -1,0 +1,5 @@
+query GameRoom {
+  viewer {
+    id
+  }
+}

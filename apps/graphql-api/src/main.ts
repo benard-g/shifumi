@@ -26,8 +26,9 @@ export async function main(config: Config, serviceLocator: ServiceLocator) {
   // Init server
   logger.info('[app] Server starting...');
   const server = await createServer({
-    serviceLocator,
+    allowedCorsOrigin: config.ALLOWED_CORS_ORIGIN,
     emitSchemaFile: config.GRAPHQL_SCHEMA_GENERATION_PATH,
+    serviceLocator,
   });
   await server.listen(config.PORT);
   logger.info('[app] Server started', { port: config.PORT });
@@ -46,7 +47,7 @@ if (require.main === module) {
   serviceLocator.set(Logger, logger);
 
   main(config, serviceLocator).catch((err) => {
-    console.error('[app] An error occurred during startup', { err });
+    logger.error('[app] An error occurred during startup', { err });
     process.exit(1);
   });
 }
