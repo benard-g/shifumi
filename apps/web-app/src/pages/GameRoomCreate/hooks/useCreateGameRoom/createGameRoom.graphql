@@ -1,0 +1,9 @@
+mutation CreateGameRoom($input: CreateGameRoomInput!) {
+  createGameRoom(input: $input) {
+    id
+    players {
+      id
+      name
+    }
+  }
+}

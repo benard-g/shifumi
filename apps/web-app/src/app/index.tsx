@@ -1,4 +1,3 @@
-import { ApolloProvider } from '@apollo/client';
 import {
   BrowserRouter as Router,
   Navigate,
@@ -12,28 +11,13 @@ import {
   useAuthentication,
 } from '../hooks/authentication';
 import GameRoomPage from '../pages/GameRoom';
+import GameRoomCreatePage from '../pages/GameRoomCreate';
 import HomePage from '../pages/Home';
 import LoginPage from '../pages/Login';
-import { createGraphqlClient } from '../services/graphql/createGraphqlClient';
+import GraphqlProvider from '../services/graphql/GraphqlProvider';
 
 import * as routes from './routes';
 import { getLoginRedirectPath } from './utils';
-
-function AppAuthenticatedContainer() {
-  const [authState] = useAuthentication();
-
-  if (!authState.isAuthenticated) {
-    return null;
-  }
-
-  return (
-    <ApolloProvider client={createGraphqlClient(authState.accessToken)}>
-      <Routes>
-        <Route element={<GameRoomPage />} path={routes.GAME_ROOM} />
-      </Routes>
-    </ApolloProvider>
-  );
-}
 
 function App() {
   const location = useLocation();
@@ -45,7 +29,13 @@ function App() {
       <Route element={<LoginPage />} path={routes.LOGIN} />
 
       {isAuthenticated ? (
-        <Route path="*" element={<AppAuthenticatedContainer />} />
+        <>
+          <Route
+            element={<GameRoomCreatePage />}
+            path={routes.GAME_ROOM_CREATE}
+          />
+          <Route element={<GameRoomPage />} path={routes.GAME_ROOM_ID} />
+        </>
       ) : (
         <Route
           element={<Navigate replace to={getLoginRedirectPath(location)} />}
@@ -60,7 +50,9 @@ function AppContainer() {
   return (
     <Router>
       <AuthenticationProvider>
-        <App />
+        <GraphqlProvider>
+          <App />
+        </GraphqlProvider>
       </AuthenticationProvider>
     </Router>
   );

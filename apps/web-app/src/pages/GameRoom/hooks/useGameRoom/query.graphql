@@ -1,0 +1,9 @@
+query GameRoom($gameRoomId: ID!) {
+  gameRoom(id: $gameRoomId) {
+    id
+    players {
+      id
+      name
+    }
+  }
+}

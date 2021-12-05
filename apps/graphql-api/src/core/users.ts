@@ -1,8 +1,6 @@
 import { v4 as uuid } from 'uuid';
 
-export interface User {
-  id: string;
-}
+import { User } from './types/User';
 
 export function createUser(): User {
   return {
