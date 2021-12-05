@@ -1,0 +1,43 @@
+{
+  "name": "@shifumi/graphql-api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.production.json",
+    "dev": "tsc-watch -p tsconfig.json --onSuccess 'yarn start' --preserveWatchOutput",
+    "script:generate-schema": "ts-node src/scripts/generateSchema.ts",
+    "start": "node ./build/main.js",
+    "test": "yarn test:lint && yarn test:jest",
+    "test:jest": "yarn jest --coverage",
+    "test:lint": "eslint --max-warnings=0 'src/**/*.{js,ts}'"
+  },
+  "dependencies": {
+    "apollo-server-fastify": "^3.5.0",
+    "class-validator": "^0.13.2",
+    "fastify": "^3.24.1",
+    "fastify-plugin": "^3.0.0",
+    "graphql": "^15.7.2",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.7.1",
+    "pino": "^7.5.1",
+    "reflect-metadata": "^0.1.13",
+    "source-map-support": "^0.5.21",
+    "type-graphql": "^1.1.1",
+    "typeorm": "^0.2.41",
+    "tsyringe": "^4.6.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.2",
+    "@types/jsonwebtoken": "^8.5.6",
+    "@types/node": "^16.11.11",
+    "@types/source-map-support": "^0.5.4",
+    "@types/uuid": "^8.3.3",
+    "jest": "^27.4.3",
+    "pino-pretty": "^7.2.0",
+    "ts-jest": "^27.1.0",
+    "ts-node": "^10.4.0",
+    "tsc-watch": "^4.5.0",
+    "typescript": "^4.5.2"
+  }
+}
