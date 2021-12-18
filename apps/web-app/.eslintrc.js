@@ -11,6 +11,7 @@ module.exports = {
   plugins: ['react-hooks'],
   ignorePatterns: ['*.codegen.ts'],
   rules: {
+    'react/jsx-sort-props': 'error',
     'react/react-in-jsx-scope': 'off',
   },
 };

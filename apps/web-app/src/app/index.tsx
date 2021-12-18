@@ -1,3 +1,4 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import {
   BrowserRouter as Router,
   Navigate,
@@ -6,17 +7,19 @@ import {
   useLocation,
 } from 'react-router-dom';
 
+import AppLayout from '../components/AppLayout';
 import {
   AuthenticationProvider,
   useAuthentication,
 } from '../hooks/authentication';
+import { UserProfileProvider } from '../hooks/userProfile';
 import GameRoomPage from '../pages/GameRoom';
 import GameRoomCreatePage from '../pages/GameRoomCreate';
 import HomePage from '../pages/Home';
 import LoginPage from '../pages/Login';
 import GraphqlProvider from '../services/graphql/GraphqlProvider';
 
-import * as routes from './routes';
+import routes from './routes';
 import { getLoginRedirectPath } from './utils';
 
 function App() {
@@ -24,37 +27,43 @@ function App() {
   const [{ isAuthenticated }] = useAuthentication();
 
   return (
-    <Routes>
-      <Route element={<HomePage />} path={routes.HOME} />
-      <Route element={<LoginPage />} path={routes.LOGIN} />
+    <AppLayout>
+      <Routes>
+        <Route element={<HomePage />} path={routes.HOME} />
+        <Route element={<LoginPage />} path={routes.LOGIN} />
 
-      {isAuthenticated ? (
-        <>
+        {isAuthenticated ? (
+          <>
+            <Route
+              element={<GameRoomCreatePage />}
+              path={routes.GAME_ROOM_CREATE}
+            />
+            <Route element={<GameRoomPage />} path={routes.GAME_ROOM_ID} />
+          </>
+        ) : (
           <Route
-            element={<GameRoomCreatePage />}
-            path={routes.GAME_ROOM_CREATE}
+            element={<Navigate replace to={getLoginRedirectPath(location)} />}
+            path="*"
           />
-          <Route element={<GameRoomPage />} path={routes.GAME_ROOM_ID} />
-        </>
-      ) : (
-        <Route
-          element={<Navigate replace to={getLoginRedirectPath(location)} />}
-          path="*"
-        />
-      )}
-    </Routes>
+        )}
+      </Routes>
+    </AppLayout>
   );
 }
 
 function AppContainer() {
   return (
-    <Router>
-      <AuthenticationProvider>
-        <GraphqlProvider>
-          <App />
-        </GraphqlProvider>
-      </AuthenticationProvider>
-    </Router>
+    <ChakraProvider>
+      <Router>
+        <AuthenticationProvider>
+          <UserProfileProvider>
+            <GraphqlProvider>
+              <App />
+            </GraphqlProvider>
+          </UserProfileProvider>
+        </AuthenticationProvider>
+      </Router>
+    </ChakraProvider>
   );
 }
 

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import * as routes from '../../app/routes';
+import routes from '../../app/routes';
 
 import { useCreateGameRoom } from './hooks/useCreateGameRoom';
 
@@ -14,11 +14,12 @@ function GameRoomCreatePage() {
       const { data } = await createGameRoom({
         variables: { input: { playerName: 'Billy' } },
       });
-
-      if (data) {
-        const { createGameRoom } = data;
-        navigate(routes.GAME_ROOM_ID.replace(':id', createGameRoom.id));
+      if (!data) {
+        return;
       }
+
+      const { createGameRoom: createdGameRoom } = data;
+      navigate(routes.GAME_ROOM_ID.replace(':id', createdGameRoom.id));
     } catch (_err) {
       // Error handled by the view
     }

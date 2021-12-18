@@ -32,22 +32,24 @@ function saveTokenInStorage(token: string) {
 //
 // Context
 //
-type AuthContext = {
+interface AuthContext {
   accessToken: string | undefined;
   authenticate: () => void;
   error?: Error;
   isAuthenticated: boolean;
   isLoading: boolean;
-};
+}
 
 const AUTH_CONTEXT = React.createContext<AuthContext | undefined>(undefined);
 
 //
 // Provider
 //
-type ProviderProps = React.PropsWithChildren<unknown>;
+interface ProviderProps {}
 
-export function AuthenticationProvider(props: ProviderProps) {
+export function AuthenticationProvider(
+  props: React.PropsWithChildren<ProviderProps>,
+) {
   const { children } = props;
 
   const [authState, setAuthState] = React.useState<

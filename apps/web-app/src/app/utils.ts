@@ -1,4 +1,4 @@
-import * as routes from './routes';
+import routes from './routes';
 
 export function getLoginRedirectPath(location: {
   hash?: string;

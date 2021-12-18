@@ -1,4 +1,6 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+
+import routes from '../../app/routes';
 
 import { useGameRoom } from './hooks/useGameRoom';
 
@@ -18,11 +20,19 @@ function GameRoom() {
       </div>
     );
   }
-  if (error || !gameRoom) {
+  if (error) {
     return (
       <div>
         <p>An error occurred</p>
         <code>{error?.stack}</code>
+      </div>
+    );
+  }
+  if (!gameRoom) {
+    return (
+      <div>
+        <p>No matching GameRoom</p>
+        <Link to={routes.GAME_ROOM_CREATE}>Go back to room creation</Link>
       </div>
     );
   }
